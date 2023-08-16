@@ -18,16 +18,20 @@ float M(float x) {
 }
 
 Interval interval(float x) {
-  Interval r;
-  r.lower = m(x);
-  r.upper = M(x);
-  return r;
+  Interval result;
+
+  result.lower = m(x);
+  result.upper = M(x);
+
+  return result;
 }
 
 Interval interval_sum(Interval a, Interval b) {
   Interval result;
+
   result.lower = m(a.lower + b.lower);
   result.upper = M(a.upper + b.upper);
+
   return result;
 }
 
@@ -53,11 +57,13 @@ Interval interval_mul(Interval a, Interval b) {
 
 Interval interval_div(Interval a, Interval b) {
     Interval inverse;
+
     if (b.lower == 0 || b.upper == 0) {
         inverse.lower = -INFINITY;
         inverse.upper = INFINITY;
         return inverse;
     }
+
     inverse.lower = 1 / b.upper;
     inverse.upper = 1 / b.lower;
 
@@ -65,17 +71,16 @@ Interval interval_div(Interval a, Interval b) {
 }
 
 void print_errors(Interval a) {
-  // EA: 3.07200000e+03; ER: 2.79272769e-07; ULPs: 2
   float abs_err = a.upper - a.lower;
   float rel_err = abs_err / a.lower;
   int ulps = rel_err / FLT_EPSILON;
-  // check to see if a.upper is one ulp greater than a.lower
+
   if (a.upper == nextafterf(a.lower, INFINITY)) {
     ulps = 0;
   }
+
   printf("EA: %1.8e; ER: %1.8e; ULPs: %d\n\n", abs_err, rel_err, ulps);
 }
-
 
 Interval apply_op(Interval a, Interval b, char op) {
   printf("[%1.8e,%1.8e] %c [%1.8e,%1.8e] = \n", a.lower, a.upper, op, b.lower, b.upper);
@@ -127,7 +132,6 @@ int main(void) {
   result = apply_op(result, interval(d), op3);
   printf("4: \n");
   result = apply_op(result, interval(e), op4); 
-
 
   return 0;
 }
