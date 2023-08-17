@@ -10,21 +10,19 @@ typedef union
   uint32_t u;
 } FloatIntUnion;
 
-int convert_float_to_int(float floatValue)
-{
-  FloatIntUnion unionValue;
-  unionValue.f = floatValue;
-
-  uint32_t intValue = unionValue.u;
-
-  return intValue;
-}
-
 typedef struct
 {
   float lower;
   float upper;
 } Interval;
+
+int convert_float_to_int(float floatValue)
+{
+  FloatIntUnion unionValue;
+  unionValue.f = floatValue;
+
+  return ((int)unionValue.u);
+}
 
 float m(float x)
 {
