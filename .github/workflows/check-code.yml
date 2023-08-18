@@ -12,9 +12,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: main
-      run: ./main
     - name: make
       run: make
+    - name: main
+      run: ./main
     - name: make check
       run: make check
