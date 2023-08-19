@@ -1,34 +1,41 @@
-CFLAGS = -Wall -std=c99 -g
-LDFLAGS = -lm
-OBJS = main.o estruturas.o auxiliares.o calcula_intervalo.o  operacoes.o 
-CC = gcc
-
-all: main
-
-main: $(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
-
-main.o: main.c
-	$(CC) -c $(LDFLAGS) $<
-
-estruturas.o: estruturas.c
-	$(CC) -c $(LDFLAGS) $<
-
-auxiliares.o: auxiliares.c
-	$(CC) -c $(LDFLAGS) $<
-
-calcula_intervalo.o: calcula_intervalo.c
-	$(CC) -c $(LDFLAGS) $<
-
-operacoes.o: operacoes.c
-	$(CC) -c $(LDFLAGS) $<
-
+# Name of the project
+PROJ_NAME=main
+ 
+# .c files
+C_SOURCE=$(wildcard *.c)
+ 
+# .h files
+H_SOURCE=$(wildcard *.h)
+ 
+# Object files
+OBJ=$(C_SOURCE:.c=.o)
+ 
+# Compiler
+CC=gcc
+ 
+# Flags for compiler
+CC_FLAGS=-c         \
+		 -W         \
+		 -Wall      \
+		 -lm        \
+ 
+#
+# Compilation and linking
+#
+all: $(PROJ_NAME)
+ 
+$(PROJ_NAME): $(OBJ)
+	$(CC) -o $@ $^ -lm
+ 
+%.o: %.c %.h
+	$(CC) -o $@ $< $(CC_FLAGS)
+ 
+main.o: main.c $(H_SOURCE)
+	$(CC) -o $@ $< $(CC_FLAGS)
+ 
 clean:
-	rm -f $(OBJS)
-
-purge: clean
-	rm -f main
+	rm -rf *.o $(PROJ_NAME) *~
 
 check:
-	./main < input.txt > output.txt
+	./$(PROJ_NAME) < input.txt > output.txt
 	diff -w output.txt expected.txt
