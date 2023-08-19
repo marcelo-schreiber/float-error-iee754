@@ -1,6 +1,7 @@
 #include "estruturas.h"
 #include "calcula_intervalo.h"
 #include "auxiliares.h"
+#include <math.h>
 
 
 Interval interval_sum(Interval a, Interval b)
